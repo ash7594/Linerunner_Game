@@ -1,0 +1,32 @@
+<html>
+
+<head>
+
+<script>
+
+var kast=1;
+var aast=1;
+function yup()
+	{
+	kroll++;
+	if(kast==10)
+	kast=1;
+	
+	document.getElementById('yo').src="ro"+kast+".gif";
+	setTimeout(function(){roll()},30);
+	}
+
+
+window.onload=yup;
+
+</script>
+
+</head>
+
+<body>
+
+<img id="yo" src="ro1.gif" width="400" height="200" style="position: absolute; left: 90; top: 340;" onclick="yup();"></img>
+
+</body>
+
+</html>

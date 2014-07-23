@@ -1,0 +1,479 @@
+<html>
+
+<head>
+<!--FROM ASH RISES THE WORLD-->
+
+</head>
+
+
+<body BGcolor="#0066FF" onload="yofirst();">
+
+<img id="house" src="house.png" style="display: none;"></img>
+
+<canvas id="myc" width="1340" height="640" style="position: absolute; left: 10px; top: 10px; border: 2px solid black; opacity: 0.8;">
+</canvas>
+
+<strong><font color="black" id="distance" size="+5">0</font></strong>
+
+<img id="yoman" src="2a1" width="400" height="200" style="position: absolute; left: 90; top: 340;"></img>
+<img id="yoroll" src="ro1.gif" width="400" height="200" style="display: none; position: absolute; left: 90; top: 340;"></img>
+
+<div id="outer" style="display: none;">
+<font color="black" id="over">Game Over</font>
+</div>
+
+</body>
+
+<style>
+
+body{
+	background-image:url('p1.jpg');
+	background-repeat: no-repeat;
+	background-size: 100%; 
+	}
+	
+#back{
+	width: 1340px;
+	height: 640px;
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	overflow-x: hidden;
+	}
+	
+#outer{
+	position: absolute;
+	left: 465px;
+	top: 100px;
+	}
+
+#over{
+	font-size: 80px;
+	font-family: Matura MT Script Capitals;
+	}
+	
+#distance{
+	position: absolute;
+	left: 30px;
+	top: 30px;
+	}
+
+#yoman{
+	position: absolute;
+	left: 90;
+	top: 340;
+	}
+	
+</style>
+
+<script>
+
+//style="background: url('house - copy.png'); width:1350; height: 650; background-position: 0px 0px; opacity:0.7;"
+
+var storobdata=new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,
+0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,
+0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1);
+
+
+var dis=0;
+var timer;
+var hjh=0;
+function distancec()
+	{
+	clearTimeout(timer);
+	dis++;
+	document.getElementById("distance").innerHTML=dis;
+	timer=setTimeout(function(){distancec()},100);
+	}
+
+window.onkeydown=jump;
+window.onkeyup=sneer;
+
+var x=1320,y=480;
+var x2=200,y2=340;
+var z,z2;
+var maxjump=10; //by math
+var kob=0;
+var quick=0;
+var value=22;
+var i=0;
+var stopall=0;
+var kast=2;
+var aast=1;
+var z3;
+
+var storob=new Array(67);
+for(var j=0;j<67;j++)
+storob[j]=0;
+
+var itwaslong=0;
+var zrun;
+var ftime=1;
+var sneervar=1;
+var mycanvas=document.getElementById("myc");
+var ccx=mycanvas.getContext("2d");
+//ccx.fillStyle="black";
+//ccx.fillRect(x,y,20,20);
+
+ccx.moveTo(0,510);
+ccx.lineTo(1340,510);
+ccx.lineWidth=20;
+ccx.stroke();
+
+function sneer(e)
+	{
+	sneervar=1;
+	if(y2==340)
+		window.onkeydown=jump;		
+	jdown(e);
+	}
+
+function b4man()
+	{
+	document.getElementById("yoman").style.left=90;
+	kast=0;
+	aast=1;
+	//window.onkeydown=jump;
+	man();
+	}
+
+function man()
+	{
+	clearTimeout(zrun);
+	if(kast==0)
+		aast=1;
+	else if(kast==3)
+		aast=3;
+		
+	if(aast==1)
+		kast++;
+	else			
+		kast--;
+	
+	document.getElementById('yoman').src="ran"+kast+".gif";
+	zrun=setTimeout(function(){man()},45);
+	}
+	
+var zdelayit;	
+	
+function givelag()
+	{
+	zdelayit=setTimeout(function(){jump(0)},30);
+	}
+
+function yofirst()
+	{
+	yo();
+	distancec();
+	man();
+	}
+	
+var thruq=0;	
+var kroll=1;	
+var zroll;
+var kom=66;
+var speed=30;
+var ktrack=1;
+var onceonly=0;
+var mill;
+var milli;
+var z5;
+
+function lastcondition()
+	{
+	if(y2==340)
+		window.onkeyup=jump;
+	}	
+
+//var dip=new Date();
+
+function yo()	
+	{
+	ktrack++;
+	clearTimeout(z);
+	
+	if(ktrack==100)
+		{
+		ktrack=1;
+		if(speed>19)
+			speed--;
+		}
+	
+	
+	for(var m=0;m<67;m++)
+	{
+	if(storob[m]==1 && m!=0)
+	{
+	ccx.clearRect((m*20),y,20,20);
+	storob[m]=0;
+	storob[m-1]=1;
+	}
+	else if(storob[m]==1 && m==0)
+	{
+	ccx.clearRect((m*20),y,20,20);
+	storob[m]=0;
+	}
+	}
+	
+	storob[66]=storobdata[kom];
+	
+	if(kom==1385)
+		kom=66;
+	else	
+		kom++;
+	
+	
+	/*var ran=Math.random();
+	if(ran<0.9)
+		storob[66]=0;
+	else
+		storob[66]=1;*/
+		
+	/*for(var m=0;m<64;m++) //discrete
+		if(storob[m]==1)
+			{
+			storob[m+1]=0;
+			storob[m+2]=0;
+			storob[m+3]=0;
+			}*/
+	k=0;
+	/*
+	//for(var m=53;m<59;m++)
+	if(storob[49]==1)	
+		{
+		
+		k=0;
+		for(var m=49;m<10;m++)
+			if(storob[m]==1)
+				k++;
+
+		//var ran=Math.random();
+		//if(ran>0.5)
+			//ran-=0.5;
+		
+		//ran=Math.floor((ran*(1.6-1.1))+1.1);	
+		
+		//var storobtemp=new Array(10);
+		//var jk=49;
+		
+		for(var n=0;n<10;n++)
+			storobtemp[n]=storob[jk++];
+		
+		if(coccur(storobtemp)==3)
+			{
+			for(var n=49+7;n<67 && n<=8;n++)
+				storob[n]=0;
+			}
+		}*/
+			
+	hjh--;
+	ccx.drawImage(house,0,0,900,535,hjh,0,1340,640);
+	ccx.drawImage(house,0,0,900,535,1340+hjh,0,1340,640);
+	if(hjh==-1340)
+		hjh=0;
+	
+	ccx.moveTo(0,510);
+	ccx.lineTo(1340,510);
+	ccx.lineWidth=20;
+	ccx.stroke();
+	
+	
+	ccx.fillStyle="black";
+	for(var j=0;j<67;j++)
+		{
+		if(storob[j]==1)
+			{
+			ccx.fillRect((j*20),y,20,20);
+			}
+		}	
+	
+	if(y2==340 && storob[10]==1)
+		{
+		document.getElementById("outer").style.display="block";
+		stopall=1;
+		clearTimeout(z);
+		clearTimeout(timer);
+		clearTimeout(zrun);
+		clearTimeout(zdelayit);
+		window.onkeydown=empty;
+		window.onkeyup=empty;
+		}
+		
+	//hjh=parseInt(document.getElementById('house1').style.left);
+	//document.getElementById('house').style.backgroundPosition=hjh+'px 0px';
+	//document.getElementById('house1').style.left=hjh;
+	//document.getElementById('house2').style.left=1340+hjh;	
+	
+	if(stopall==0)
+		{
+		//if(y2==460)
+			//{
+			//ccx.fillStyle="red";
+			//ccx.fillRect(x2,y2,20,40);
+			//}
+		
+		z=setTimeout(function(){yo()},speed);//speed
+		}
+	}
+	
+
+function empty(){}
+	
+	
+//ccx.fillStyle="red";
+//ccx.fillRect(x2,y2,20,40);
+quick=0;
+var excess;
+var whilechange=0;
+function jump(e)
+	{
+	if(y2==340 || whilechange==1)
+	{
+	whilechange=1;
+	if(e.keyCode==38 || e==0)
+	{
+	clearTimeout(zdelayit);
+	window.onkeydown=jump;
+	itwaslong=0;
+	//ftime=0;
+	window.onkeydown=empty;
+	i++;
+	value-=2;
+	clearTimeout(z2);
+	clearTimeout(zrun);
+	//ccx.clearRect(x2,y2,20,40);
+	y2-=value;
+
+	document.getElementById("yoman").src="j2.gif";
+	document.getElementById("yoman").style.top=y2;
+	document.getElementById("yoman").style.left=20;
+	//ccx.fillStyle="red";
+	//ccx.fillRect(x2,y2,20,40);
+	if(i==maxjump)
+	{
+	clearTimeout(z2);
+	if(quick==1)
+	{
+	quick=0;
+	thruq=1;
+	z3=setTimeout(function(){jdown(0)},1);
+	}
+	else
+		{
+		//window.onkeyup=empty;
+		itwaslong=1;
+		z5=setTimeout(function(){jdown(0)},300);	
+		}
+	}
+	else
+		{
+		//window.onkeyup=empty;
+		z2=setTimeout(function(){jump(0)},20);
+		}
+	}
+	/*else if(e.keyCode==40)
+		{
+		clearTimeout(zrun);
+		document.getElementById("yoman").style.display="none";
+		document.getElementById("yoroll").style.display="block";
+		kroll=0;
+		//for(kroll=1;kroll<10;kroll++)
+		function roli()	
+			{
+			kroll++;
+			if(kroll<10)
+				{
+				document.getElementById('yoroll').src="ro"+kroll+".gif";
+				zroll=setTimeout(function(){roli()},50);
+				}
+			else
+				{
+				clearTimeout(zroll);
+				document.getElementById("yoman").style.display="block";
+				document.getElementById("yoroll").style.display="none";
+				b4man();
+				}	
+			}
+		roli();	
+		}*/
+	}
+	}
+	
+var other=0;	
+	
+function jdown(e)
+	{
+	if(e.keyCode==38 || e==0)
+	{
+	if(i==maxjump || other==1)
+	{
+	whilechange=0;
+	sneervar=0;
+	i--;
+	clearTimeout(z5);
+	clearTimeout(z3);
+	//ccx.clearRect(x2,y2,20,40);
+	y2+=value;
+	document.getElementById("yoman").style.top=y2;
+	//ccx.fillStyle="red";
+	//ccx.fillRect(x2,y2,20,40);
+	value+=2;
+	if(i==0)
+	{
+	clearTimeout(z3);
+	value=22;
+	other=0;
+	window.onkeyup=sneer;
+	if(itwaslong==1)
+		{
+		window.onkeydown=givelag;
+		}
+	//ftime=1;
+	if(thruq==1)
+		{
+		thruq=0;
+		window.onkeyup=sneer;
+		window.onkeydown=jump;
+		}
+	b4man();
+	}
+	else
+	{
+	other=1;
+	z3=setTimeout(function(){jdown(0)},20);
+	}
+	}
+	else
+	{
+	if(itwaslong==0 && e.keyCode==38)
+		quick=1;
+	}
+	}
+	}
+	
+	
+	
+
+</script>
+
+</html>
